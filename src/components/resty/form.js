@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import Methods from './methods';
+import { connect } from 'react-redux';
+
+import * as ha from '../../actions/history-actions';
+import * as fa from '../../actions/form-actions';
 
 class Form extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
   render() {
     return (
       <form onSubmit={this.props.handleSubmit}>
@@ -85,4 +85,18 @@ class Form extends Component {
     );
   }
 }
-export default Form;
+
+const mapStateToProps = state => ({
+  history: state.history,
+  formData: state.formData,
+});
+
+const mapDispatchToProps = (dispatch, getState) => ({
+  updateFormData: payload => dispatch(fa.updateFormData(payload)),
+  setHistory: payload => dispatch(ha.setHistory(payload)),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Form);

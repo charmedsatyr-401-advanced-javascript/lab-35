@@ -3,53 +3,40 @@ import './resty.css';
 import React from 'react';
 import superagent from 'superagent';
 import ReactJson from 'react-json-view';
-import md5 from 'md5';
 
 import { connect } from 'react-redux';
+
 import * as ha from '../../actions/history-actions';
+import * as fa from '../../actions/form-actions';
+
+import md5 from 'md5';
 
 import Form from './form';
 import History from './history';
 
 class RESTy extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      url: '',
-      method: 'get',
-      requestBody: '',
-      username: '',
-      password: '',
-      token: '',
-      header: {},
-      body: {},
-      headersVisible: false,
-    };
-  }
-
   saveHistory = () => {
     localStorage.setItem('history', JSON.stringify(this.props.history));
   };
 
   updateHistory = () => {
-    let url = new URL(this.state.url);
-
-    let lastRun = {
+    const url = new URL(this.props.formData.url);
+    const lastRun = {
       host: url.hostname,
       path: url.pathname,
-      url: this.state.url,
-      method: this.state.method,
-      requestBody: this.state.requestBody,
-      username: this.state.username,
-      password: this.state.password,
-      token: this.state.token,
+      url: this.props.formData.url,
+      method: this.props.formData.method,
+      requestBody: this.props.formData.requestBody,
+      username: this.props.formData.username,
+      password: this.props.formData.password,
+      token: this.props.formData.token,
       body: {},
       header: {},
     };
 
-    let key = md5(JSON.stringify(lastRun));
-    let entry = { [key]: lastRun };
-    let history = { ...this.props.history, ...entry };
+    const key = md5(JSON.stringify(lastRun));
+    const entry = { [key]: lastRun };
+    const history = { ...this.props.history, ...entry };
     this.props.setHistory({ history });
     this.saveHistory();
   };
@@ -57,58 +44,67 @@ class RESTy extends React.Component {
   resetFormFromHistory = event => {
     event.preventDefault();
     const newState = this.props.history[event.currentTarget.id];
-    this.setState({ ...newState });
+    this.props.updateFormData({ ...newState });
   };
 
   handleChange = event => {
     let prop = event.target.name;
     let value = event.target.value;
-    this.setState({ [prop]: value });
+    this.props.updateFormData({ [prop]: value });
 
     // If basic/bearer, clear the other
     if (prop === 'token') {
       let username = '';
       let password = '';
-      this.setState({ username, password });
+      this.props.updateFormData({ username, password });
     }
 
     if (prop.match(/username|password/)) {
       let token = '';
-      this.setState({ token });
+
+      this.props.updateFormData({ token });
     }
   };
 
   toggleHeaders = () => {
-    let headersVisible = !this.state.headersVisible;
-    this.setState({ headersVisible });
+    let headersVisible = !this.props.formData.headersVisible;
+    this.props.updateFormData({ headersVisible });
   };
 
   callAPI = event => {
     event.preventDefault();
+    console.log('CALLING API!');
 
     let contentType = { 'Content-Type': 'application/json' };
-    let bearer = this.state.token ? { Authorization: `Bearer ${this.state.token}` } : {};
+    let bearer = this.props.formData.token
+      ? { Authorization: `Bearer ${this.props.formData.token}` }
+      : {};
     let basic =
-      this.state.username && this.state.password
+      this.props.formData.username && this.props.formData.password
         ? {
-            Authorization: 'Basic ' + btoa(`${this.state.username}:${this.state.password}`),
+            Authorization:
+              'Basic ' + btoa(`${this.props.formData.username}:${this.props.formData.password}`),
           }
         : {};
 
-    superagent(this.state.method, this.state.url)
+    console.log('METHOD OF THECALL:', this.props.formData.method);
+    console.log('URL OF THECALL:', this.props.formData.url);
+    superagent(this.props.formData.method, this.props.formData.url)
       .set('Content-Type', 'application/json')
       .set(Object.assign(contentType, bearer, basic))
-      .send(this.state.requestBody)
+      .send(this.props.formData.requestBody)
       .then(response => {
         let header = response.header;
         let body = response.body;
-        this.setState({ header, body });
+        console.log('GOT A RESPONSE!');
+
+        this.props.updateFormData({ header, body });
         this.updateHistory();
       })
       .catch(e => {
         let body = { error: e.message };
         let header = {};
-        this.setState({ header, body });
+        this.props.updateFormData({ header, body });
       });
   };
 
@@ -123,13 +119,13 @@ class RESTy extends React.Component {
             handleChange={this.handleChange}
             handleClick={this.toggleHeaders}
             handleSubmit={this.callAPI}
-            headersVisible={this.state.headersVisible}
-            method={this.state.method}
-            password={this.state.password}
-            requestBody={this.state.requestBody}
-            token={this.state.token}
-            url={this.state.url}
-            username={this.state.username}
+            headersVisible={this.props.formData.headersVisible}
+            method={this.props.formData.method}
+            password={this.props.formData.password}
+            requestBody={this.props.formData.requestBody}
+            token={this.props.formData.token}
+            url={this.props.formData.url}
+            username={this.props.formData.username}
           />
 
           {/* DISPLAY RESPONSE */}
@@ -138,13 +134,13 @@ class RESTy extends React.Component {
               name="Headers"
               enableClipboard={false}
               collapsed={true}
-              src={this.state.header}
+              src={this.props.formData.header}
             />
             <ReactJson
               name="Response"
               enableClipboard={false}
               collapsed={false}
-              src={this.state.body}
+              src={this.props.formData.body}
             />
           </div>
         </section>
@@ -155,10 +151,12 @@ class RESTy extends React.Component {
 
 const mapStateToProps = state => ({
   history: state.history,
+  formData: state.formData,
 });
 
 const mapDispatchToProps = (dispatch, getState) => ({
   setHistory: payload => dispatch(ha.setHistory(payload)),
+  updateFormData: payload => dispatch(fa.updateFormData(payload)),
 });
 
 export default connect(
