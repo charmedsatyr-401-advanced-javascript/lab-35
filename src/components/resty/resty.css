@@ -1,0 +1,184 @@
+main {
+  display: flex;
+  margin: 1em;
+}
+
+textarea {
+  display: block;
+  height: 10em;
+  width: 100%;
+}
+
+textarea[disabled] {
+  background: #ccc;
+}
+
+h2 {
+  font-weight: bold;
+  margin-bottom: 0.5em;
+}
+
+strong {
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+input.wide {
+  width: 100%;
+}
+
+#methods {
+  display: flex;
+  margin: 1em 0;
+}
+
+#methods input[type='radio'] {
+  display: none;
+}
+
+#methods label {
+  cursor: pointer;
+  margin-right: 1em;
+}
+
+#methods span {
+  padding: 0.25em 1em;
+}
+
+#methods span:hover {
+  background: #ddd;
+}
+
+#methods input[type='radio']:checked + span {
+  background: #2d5986;
+  color: #eee;
+  border: 1px groove #ccc;
+}
+
+#json {
+  background: #f5f5f5;
+  border: 1px solid #ccc;
+  flex: 1;
+  overflow: auto;
+  padding: 1em;
+}
+
+@media (max-width: 768px) {
+  main {
+    flex-direction: column;
+  }
+  aside {
+    border-top: 1px solid #ccc;
+    padding-top: 0.5em;
+    order: 2;
+  }
+
+  textarea {
+    height: 6em;
+  }
+
+  #methods label {
+    margin-right: 0.2em;
+  }
+
+  #methods span {
+    padding: 0.25em 0.5em;
+  }
+
+  #history li {
+    border: 1px groove #ccc;
+    color: #eee;
+    cursor: pointer;
+    font-size: 0.75em;
+    margin-bottom: 0.5em;
+    padding: 0.33em;
+    border-radius: 3px;
+    background: #2d5986;
+  }
+
+  #history li:hover {
+    color: #000;
+    background: #ccc;
+  }
+
+  #history span {
+    margin-right: 0.3em;
+  }
+
+  #json,
+  #headers {
+    margin: 1.5em 0;
+  }
+
+  #headers a {
+    color: navy;
+    font-size: 0.75em;
+    float: right;
+    text-decoration: none;
+  }
+
+  #headers div {
+    margin-top: 0.5em;
+    transition: all 400ms ease-in-out;
+  }
+
+  #headers div.visible-false {
+    height: 0px;
+    overflow: hidden;
+  }
+}
+
+@media (min-width: 768px) {
+  aside {
+    margin-right: 1em;
+    width: 25%;
+  }
+
+  section.deck {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  section.deck.col-2 {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 1em 0;
+  }
+
+  section.deck.col-2 > div {
+    width: calc(50% - 0.5em);
+  }
+
+  #headers {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+
+  #headers a {
+    display: none;
+  }
+
+  #history li {
+    border: 1px groove #ccc;
+    color: #eee;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    font-size: 0.75em;
+    margin-bottom: 0.5em;
+    padding: 0.33em;
+    border-radius: 3px;
+    background: #2d5986;
+  }
+
+  #history li:hover {
+    color: #000;
+    background: #ccc;
+  }
+
+  input.wide {
+    width: 100%;
+  }
+}
