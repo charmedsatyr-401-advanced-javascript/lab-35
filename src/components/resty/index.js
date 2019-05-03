@@ -123,13 +123,20 @@ class RESTy extends React.Component {
     return (
       <main>
         {/* HISTORY */}
-        <History handleClick={this.resetFormFromHistory} state={this.state} />
+        <History handleClick={this.resetFormFromHistory} history={this.state.history} />
+
         <section className="deck">
           <Form
             handleChange={this.handleChange}
-            handleSubmit={this.callAPI}
-            state={this.state}
             handleClick={this.toggleHeaders}
+            handleSubmit={this.callAPI}
+            headersVisible={this.state.headersVisible}
+            method={this.state.method}
+            password={this.state.password}
+            requestBody={this.state.requestBody}
+            token={this.state.token}
+            url={this.state.url}
+            username={this.state.username}
           />
 
           {/* DISPLAY RESPONSE */}
