@@ -18,7 +18,7 @@ class History extends Component {
         <ul id="history">
           {this.props.history &&
             Object.keys(this.props.history).map(key => (
-              <li key={key} id={key} onClick={this.props.resetFormFromHistory}>
+              <li key={key} id={key} onClick={this.props.handleClick}>
                 <span>
                   <strong>{this.props.history[key].method}</strong>
                 </span>

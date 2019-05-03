@@ -25,7 +25,7 @@ const Form = props => (
 
     {/* A THING */}
     <section className="deck col-2">
-      {/* A THING */}
+      {/* TestAreaBody */}
       <div id="body">
         <textarea
           placeholder="Raw JSON Body"

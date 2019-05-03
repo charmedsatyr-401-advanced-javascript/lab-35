@@ -57,7 +57,9 @@ class RESTy extends React.Component {
   resetFormFromHistory = event => {
     event.preventDefault();
     const newState = this.props.history[event.currentTarget.id];
-    this.setState({ ...newState });
+    // this.props.resetHistory({...newState})
+    console.log({...newState})
+      this.setState({ ...newState });
   };
 
   handleChange = event => {
@@ -155,10 +157,12 @@ class RESTy extends React.Component {
 
 const mapStateToProps = state => ({
   history: state.history,
+
 });
 
 const mapDispatchToProps = (dispatch, getState) => ({
   setHistory: payload => dispatch(ha.setHistory(payload)),
+  resetHistory: payload => dispatch(ha.resetHistory(payload) ),
 });
 
 export default connect(
