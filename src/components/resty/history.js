@@ -1,40 +1,46 @@
-import React from 'react';
+import React, { Component } from 'react';
+import * as ha from '../../actions/history-actions';
+import { connect } from 'react-redux';
 
-const History = props => (
-  <aside>
-    <h2>History</h2>
-    <ul id="history">
-      {props.history &&
-        Object.keys(props.history).map(key => (
-          <li key={key} id={key} onClick={props.resetFormFromHistory}>
-            <span>
-              <strong>{props.history[key].method}</strong>
-            </span>
-            <span>{props.history[key].host}</span>
-            <span>{props.history[key].path}</span>
-          </li>
-        ))}
-    </ul>
-  </aside>
-);
+class History extends Component {
+  componentDidMount() {
+    try {
+      const history = JSON.parse(localStorage.getItem('history'));
+      this.props.setHistory(history);
+    } catch (e) {
+      console.error(e);
+    }
+  }
+  render() {
+    return (
+      <aside>
+        <h2>History</h2>
+        <ul id="history">
+          {this.props.history &&
+            Object.keys(this.props.history).map(key => (
+              <li key={key} id={key} onClick={this.props.resetFormFromHistory}>
+                <span>
+                  <strong>{this.props.history[key].method}</strong>
+                </span>
+                <span>{this.props.history[key].host}</span>
+                <span>{this.props.history[key].path}</span>
+              </li>
+            ))}
+        </ul>
+      </aside>
+    );
+  }
+}
 
-export default History;
-
-/*
 const mapStateToProps = state => ({
-  records: state.records,
-  schema: state.schema,
+  history: state.history,
 });
 
 const mapDispatchToProps = (dispatch, getState) => ({
-  handleGet: model => dispatch(ra.get(model)),
-  handleDelete: (payload, model) => dispatch(ra.destroy(payload, model)),
-  handlePatch: (payload, model) => dispatch(ra.patch(payload, model)),
-  handlePut: (payload, model) => dispatch(ra.put(payload, model)),
+  setHistory: payload => dispatch(ha.setHistory(payload)),
 });
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Records);
-*/
+)(History);

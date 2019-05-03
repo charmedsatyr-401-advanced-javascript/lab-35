@@ -4,10 +4,10 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 import reporter from './reporter.js';
 
-import pol from './reducers.js';
+import history from '../reducers/history-reducers';
 
 const reducers = combineReducers({
-  pol,
+  history,
 });
 
 const store = () => createStore(reducers, composeWithDevTools(applyMiddleware(thunk, reporter)));

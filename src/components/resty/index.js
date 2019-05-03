@@ -6,7 +6,7 @@ import ReactJson from 'react-json-view';
 import md5 from 'md5';
 
 import { connect } from 'react-redux';
-import * as pa from '../../store/actions';
+import * as ha from '../../actions/history-actions';
 
 import Form from './form';
 import History from './history';
@@ -23,25 +23,12 @@ class RESTy extends React.Component {
       token: '',
       header: {},
       body: {},
-      history: {},
       headersVisible: false,
     };
   }
 
-  componentDidMount() {
-    setInterval(() => {
-      this.props.pol('boop');
-    }, 1000);
-    try {
-      let history = JSON.parse(localStorage.getItem('history'));
-      this.setState({ history });
-    } catch (e) {
-      console.error(e);
-    }
-  }
-
   saveHistory = () => {
-    localStorage.setItem('history', JSON.stringify(this.state.history));
+    localStorage.setItem('history', JSON.stringify(this.props.history));
   };
 
   updateHistory = () => {
@@ -62,14 +49,14 @@ class RESTy extends React.Component {
 
     let key = md5(JSON.stringify(lastRun));
     let entry = { [key]: lastRun };
-    let history = { ...this.state.history, ...entry };
-    this.setState({ history });
+    let history = { ...this.props.history, ...entry };
+    this.props.setHistory({ history });
     this.saveHistory();
   };
 
   resetFormFromHistory = event => {
     event.preventDefault();
-    let newState = this.state.history[event.currentTarget.id];
+    const newState = this.props.history[event.currentTarget.id];
     this.setState({ ...newState });
   };
 
@@ -129,7 +116,7 @@ class RESTy extends React.Component {
     return (
       <main>
         {/* HISTORY */}
-        <History handleClick={this.resetFormFromHistory} history={this.state.history} />
+        <History handleClick={this.resetFormFromHistory} />
 
         <section className="deck">
           <Form
@@ -166,11 +153,15 @@ class RESTy extends React.Component {
   }
 }
 
+const mapStateToProps = state => ({
+  history: state.history,
+});
+
 const mapDispatchToProps = (dispatch, getState) => ({
-  pol: payload => dispatch(pa.pol(payload)),
+  setHistory: payload => dispatch(ha.setHistory(payload)),
 });
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(RESTy);
