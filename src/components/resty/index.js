@@ -161,3 +161,22 @@ class RESTy extends React.Component {
 }
 
 export default RESTy;
+
+/*
+const mapStateToProps = state => ({
+  records: state.records,
+  schema: state.schema,
+});
+
+const mapDispatchToProps = (dispatch, getState) => ({
+  handleGet: model => dispatch(ra.get(model)),
+  handleDelete: (payload, model) => dispatch(ra.destroy(payload, model)),
+  handlePatch: (payload, model) => dispatch(ra.patch(payload, model)),
+  handlePut: (payload, model) => dispatch(ra.put(payload, model)),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Records);
+*/
