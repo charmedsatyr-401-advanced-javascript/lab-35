@@ -5,6 +5,9 @@ import superagent from 'superagent';
 import ReactJson from 'react-json-view';
 import md5 from 'md5';
 
+import { connect } from 'react-redux';
+import * as pa from '../../store/actions';
+
 import Form from './form';
 import History from './history';
 
@@ -26,6 +29,9 @@ class RESTy extends React.Component {
   }
 
   componentDidMount() {
+    setInterval(() => {
+      this.props.pol('boop');
+    }, 1000);
     try {
       let history = JSON.parse(localStorage.getItem('history'));
       this.setState({ history });
@@ -160,23 +166,11 @@ class RESTy extends React.Component {
   }
 }
 
-export default RESTy;
-
-/*
-const mapStateToProps = state => ({
-  records: state.records,
-  schema: state.schema,
-});
-
 const mapDispatchToProps = (dispatch, getState) => ({
-  handleGet: model => dispatch(ra.get(model)),
-  handleDelete: (payload, model) => dispatch(ra.destroy(payload, model)),
-  handlePatch: (payload, model) => dispatch(ra.patch(payload, model)),
-  handlePut: (payload, model) => dispatch(ra.put(payload, model)),
+  pol: payload => dispatch(pa.pol(payload)),
 });
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
-)(Records);
-*/
+)(RESTy);
