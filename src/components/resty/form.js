@@ -2,15 +2,11 @@ import React, { Component } from 'react';
 import Methods from './methods';
 import { connect } from 'react-redux';
 
-import * as ha from '../../actions/history-actions';
-import * as fa from '../../actions/form-actions';
-
 class Form extends Component {
   render() {
     return (
       <form onSubmit={this.props.handleSubmit}>
         <section>
-          {/* THING */}
           <input
             type="text"
             className="wide"
@@ -23,13 +19,11 @@ class Form extends Component {
           {/* METHODS COMPONENT */}
           <Methods method={this.props.formData.method} handleChange={this.props.handleChange} />
 
-          {/* A BUTTON */}
           <label>
             <button type="submit">Go!</button>
           </label>
         </section>
 
-        {/* A THING */}
         <section className="deck col-2">
           {/* A THING */}
           <div id="body">
@@ -42,7 +36,6 @@ class Form extends Component {
             />
           </div>
 
-          {/* A THING */}
           <div id="headers">
             {/* eslint-disable-next-line */}
             <a href="#" onClick={this.props.handleClick}>
@@ -67,7 +60,6 @@ class Form extends Component {
               />
             </div>
 
-            {/* A THING */}
             <div className={'visible-' + this.props.formData.headersVisible}>
               <h2>Bearer Token</h2>
               <input
@@ -87,16 +79,7 @@ class Form extends Component {
 }
 
 const mapStateToProps = state => ({
-  history: state.history,
   formData: state.formData,
 });
 
-const mapDispatchToProps = (dispatch, getState) => ({
-  updateFormData: payload => dispatch(fa.updateFormData(payload)),
-  setHistory: payload => dispatch(ha.setHistory(payload)),
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Form);
+export default connect(mapStateToProps)(Form);

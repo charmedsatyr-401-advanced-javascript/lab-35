@@ -34,7 +34,6 @@ class History extends Component {
 
 const mapStateToProps = state => ({
   history: state.history,
-  formData: state.formData,
 });
 
 const mapDispatchToProps = (dispatch, getState) => ({
