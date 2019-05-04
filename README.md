@@ -1,4 +1,4 @@
-![cf](http://i.imgur.com/7v5ASc8.png) Lab 33: Remote APIs  
+![cf](http://i.imgur.com/7v5ASc8.png) Lab 35: Refactor RESTy to REdux
 ============================================================================    
 Date: May 3rd, 2019    
 Authors: Joseph Wolfe, Aaron Ferris  
