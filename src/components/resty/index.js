@@ -2,14 +2,13 @@ import './resty.css';
 
 import React from 'react';
 import superagent from 'superagent';
-import ReactJson from 'react-json-view';
-
 import { connect } from 'react-redux';
+import md5 from 'md5';
+
+import DisplayResponse from './display-response';
 
 import * as ha from '../../actions/history-actions';
 import * as fa from '../../actions/form-actions';
-
-import md5 from 'md5';
 
 import Form from './form';
 import History from './history';
@@ -119,30 +118,9 @@ class RESTy extends React.Component {
             handleChange={this.handleChange}
             handleClick={this.toggleHeaders}
             handleSubmit={this.callAPI}
-            headersVisible={this.props.formData.headersVisible}
-            method={this.props.formData.method}
-            password={this.props.formData.password}
-            requestBody={this.props.formData.requestBody}
-            token={this.props.formData.token}
-            url={this.props.formData.url}
-            username={this.props.formData.username}
           />
 
-          {/* DISPLAY RESPONSE */}
-          <div id="json">
-            <ReactJson
-              name="Headers"
-              enableClipboard={false}
-              collapsed={true}
-              src={this.props.formData.header}
-            />
-            <ReactJson
-              name="Response"
-              enableClipboard={false}
-              collapsed={false}
-              src={this.props.formData.body}
-            />
-          </div>
+          <DisplayResponse header={this.props.formData.header} body={this.props.formData.body} />
         </section>
       </main>
     );

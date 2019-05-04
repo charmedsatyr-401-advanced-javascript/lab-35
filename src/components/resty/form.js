@@ -16,12 +16,12 @@ class Form extends Component {
             className="wide"
             name="url"
             placeholder="URL"
-            value={this.props.url}
+            value={this.props.formData.url}
             onChange={this.props.handleChange}
           />
 
           {/* METHODS COMPONENT */}
-          <Methods method={this.props.method} handleChange={this.props.handleChange} />
+          <Methods method={this.props.formData.method} handleChange={this.props.handleChange} />
 
           {/* A BUTTON */}
           <label>
@@ -37,8 +37,8 @@ class Form extends Component {
               placeholder="Raw JSON Body"
               name="requestBody"
               onChange={this.props.handleChange}
-              value={this.props.requestBody}
-              disabled={this.props.method.match(/get|delete/) ? true : false}
+              value={this.props.formData.requestBody}
+              disabled={this.props.formData.method.match(/get|delete/) ? true : false}
             />
           </div>
 
@@ -50,25 +50,25 @@ class Form extends Component {
             </a>
 
             {/* A THING */}
-            <div className={'visible-' + this.props.headersVisible}>
+            <div className={'visible-' + this.props.formData.headersVisible}>
               <h2>Basic Authorization</h2>
               <input
                 onChange={this.props.handleChange}
                 name="username"
                 placeholder="Username"
-                value={this.props.username}
+                value={this.props.formData.username}
               />
               <input
                 onChange={this.props.handleChange}
                 name="password"
                 type="password"
                 placeholder="Password"
-                value={this.props.password}
+                value={this.props.formData.password}
               />
             </div>
 
             {/* A THING */}
-            <div className={'visible-' + this.props.headersVisible}>
+            <div className={'visible-' + this.props.formData.headersVisible}>
               <h2>Bearer Token</h2>
               <input
                 onChange={this.props.handleChange}
@@ -76,7 +76,7 @@ class Form extends Component {
                 className="wide"
                 name="token"
                 placeholder="Token"
-                value={this.props.token}
+                value={this.props.formData.token}
               />
             </div>
           </div>
