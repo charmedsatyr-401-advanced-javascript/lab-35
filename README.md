@@ -4,9 +4,11 @@ Date: May 3rd, 2019
 Authors: Joseph Wolfe, Aaron Ferris  
 
 
-[Pull request](https://github.com/charmedsatyr-401-advanced-javascript/lab-35/pull/1)  
-[Deployment](https://amazing-payne-eab3c5.netlify.com/)  
-[LAB INSTRUCTIONS](./LAB.md)  
+* [Pull request](https://github.com/charmedsatyr-401-advanced-javascript/lab-35/pull/1)  
+* [![Build Status](https://travis-ci.com/charmedsatyr-401-advanced-javascript/lab-35.svg?branch=storify)](https://travis-ci.com/charmedsatyr-401-advanced-javascript/lab-35)
+* [Deployment](https://amazing-payne-eab3c5.netlify.com/)  
+* [LAB INSTRUCTIONS](./LAB.md)  
+
 ## File  Structure
 ```.
 ├── config
